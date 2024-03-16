@@ -1,0 +1,20 @@
+
+1) Micro-Services (Employee-Service & Department-Service)
+
+2) Eureka-Server
+
+3) Feign-Client
+
+4) Zipkin-Integration
+
+5) Config-Server
+
+6) Api-Gateway
+
+7) Circuit-Breaker
+
+8) Organization-Service
+
+9) Package Microservices
+
+10) Deploy Into AWS Cloud 

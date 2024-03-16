@@ -1,0 +1,81 @@
+
+Implemented Employee-Management-Project using Microservices Architecture
+========================================================================
+
+Modules as follows:
+````````````````````
+1) Employee-Service
+
+2) Department-Service
+
+3) Postman and Swagger - Api Testing 
+
+4) Service-Registry
+
+5. Connected both Microservices to the Service-Registry
+
+6. Feign-Client (Intercommunication)
+
+7. Zipkin
+	Micrometer
+
+=> Added below dependency w.r.t Micrometer
+
+<dependency>
+	<groupId>io.github.openfeign</groupId>
+	<artifactId>feign-micrometer</artifactId>
+</dependency>
+
+application.properties:
+```````````````````````
+management.tracing.sampling.probability=1.0
+
+
+8. Api-Gateway
+	- Removed 'spring-boot-devtools' dependency
+	- We will Re-Start for Each and everytime
+
+used dependency:
+`````````````````
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-gateway-mvc</artifactId>
+</dependency>
+
+application.properties:
+```````````````````````
+spring.cloud.gateway.mvc.routes[0].id=EMPLOYEE-SERVICE
+spring.cloud.gateway.mvc.routes[0].uri=lb://EMPLOYEE-SERVICE
+spring.cloud.gateway.mvc.routes[0].predicates[0]=Path=/api/employees/**
+
+spring.cloud.gateway.mvc.routes[1].id=DEPARTMENT-SERVICE
+spring.cloud.gateway.mvc.routes[1].uri=lb://DEPARTMENT-SERVICE
+spring.cloud.gateway.mvc.routes[1].predicates[0]=Path=/api/departments/**
+
+got exception as follows:
+``````````````````````````
+Caused by: java.lang.IllegalAccessError: class org.springframework.cloud.gateway.server.mvc.config.GatewayMvcPropertiesBeanDefinitionRegistrar$RouterFunctionHolder$$SpringCGLIB$$1 cannot access its superclass org.springframework.cloud.gateway.server.mvc.config.GatewayMvcPropertiesBeanDefinitionRegistrar$RouterFunctionHolder
+
+solved that exception by removing 'spring-boot-devtools' dependency
+
+9. Circuit-Breaker
+
+=> Added 'spring-boot-starter-aop' dependency in micro-services
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+
+application.properties:
+````````````````````````
+management.health.circuitbreakers.enabled=true
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+
+10. Config-Server
+
+application.properties:
+````````````````````````
+spring.config.import=optional:configserver:http://localhost:8888
+
+11. Organization-Service 
