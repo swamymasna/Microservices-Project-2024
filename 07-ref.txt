@@ -73,6 +73,7 @@ management.endpoints.web.exposure.include=*
 management.endpoint.health.show-details=always
 
 10. Config-Server
+used repository url : https://github.com/swamymasna/sbms-configs-2024.git
 
 application.properties:
 ````````````````````````
